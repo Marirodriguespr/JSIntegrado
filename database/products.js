@@ -42,10 +42,21 @@ const deleteProduct = (id) => {
     })
 }
 
+const buyProductByUser = (userId,productId,quantity) => {
+    return prisma.boughtBy.create({
+        data:{
+            usersId: userId,
+            productsId: productId,
+            quantity,
+        }
+    })
+}
+
 module.exports = {
     saveProduct,
     getAllProducts,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    buyProductByUser
 }

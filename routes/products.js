@@ -1,6 +1,7 @@
 const express = require("express");
-const { saveProduct, getAllProducts, getProductById, updateProduct, deleteProduct } = require("../database/products");
+const { saveProduct, getAllProducts, getProductById, updateProduct, deleteProduct, buyProductByUser } = require("../database/products");
 const auth = require("../middleware/auth");
+const { products } = require("../database/prisma");
 const router = express.Router();
 
 router.get("/products",auth, async (req, res) => {
@@ -46,6 +47,20 @@ router.delete("/products/:id", auth,async (req, res) => {
     const id = Number(req.params.id);
     await deleteProduct(id);
     res.status(204).send();
+})
+
+router.post("/products/buy",auth,async (req,res)=>{
+    const user=req.user;
+    const productsAndQuantity = req.body.products;
+    Array.forEach(async (element)=>{
+
+    })
+    for(let item of productsAndQuantity){
+        await buyProductByUser(user.userId, item.id,item.quantity)
+    }
+    res.status(201).json({
+        sucess:true
+    })
 })
 
 module.exports = {
